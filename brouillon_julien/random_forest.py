@@ -1,36 +1,63 @@
 from creation_matrices import rendements
 import pandas as pd
+import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
-import numpy as np
 
-# Chargement des données
 P = rendements()  # DataFrame pour les rendements passés
+F = rendements()  # DataFrame pour les rendements futurs
 
-# Séparation des données de P en ensembles d'entraînement et de test
-X_train, X_test, y_train, y_test = train_test_split(P.iloc[:-1], P.iloc[1:], test_size=0.2, random_state=42)
+# Fonction pour créer des features et targets : 
+# Pour chaque point dans data, on prend les rendements des window_size jours 
+# précédents comme features (X) et les rendements du jour actuel comme target (y).
+def create_features_targets(data, window_size):
+    X, y = [], []
+    for i in range(window_size, len(data)):
+        X.append(data.iloc[i-window_size:i].values.flatten())
+        y.append(data.iloc[i].values)
+    return np.array(X), np.array(y)
 
-# Création et entraînement du modèle Random Forest
-model = RandomForestRegressor(n_estimators=100, random_state=42)
+# Paramètres
+window_size = 10  # Fenêtre temporelle pour les features
+
+# Création des ensembles d'entraînement et de test
+X, y = create_features_targets(P, window_size)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Entraînement du modèle Random Forest
+model = RandomForestRegressor(n_estimators=30, random_state=42)
 model.fit(X_train, y_train)
 
-# Prédiction sur l'ensemble de test et évaluation
-y_pred = model.predict(X_test)
-rmse = mean_squared_error(y_test, y_pred, squared=False)
-print(f"RMSE: {rmse}")
+# Prédictions sur l'ensemble de test
+predictions = model.predict(X_test)
 
-# Stratégie d'allocation basée sur les prédictions du modèle
-# Cette stratégie peut être ajustée selon vos critères spécifiques
-# Par exemple, choisir l'actif avec le rendement prédit le plus élevé pour chaque jour
-allocation_strategy = y_pred.argmax(axis=1)
+# Stratégie d'allocation basée sur le classement des rendements prévus
+def allocate_based_on_ranking(predictions, top_n):
+    rankings = np.argsort(predictions, axis=1)[:, -top_n:]
+    allocations = np.zeros_like(predictions)
+    for i, ranking in enumerate(rankings):
+        allocations[i, ranking] = 1 / top_n
+    return allocations
 
-# Appliquer la stratégie d'allocation sur F (en pratique, F est inconnu ici)
-# Notez que F_pred est inutilisé dans ce contexte, mais montré pour l'exemple
-F = rendements()  # En pratique, F est inconnu ici
-F_pred = model.predict(F)
-allocation_on_F = F_pred.argmax(axis=1)
+# Choix du nombre d'actifs à inclure dans le portefeuille
+top_n = 5
+allocations = allocate_based_on_ranking(predictions, top_n)
 
-# Afficher l'allocation pour le premier jour à titre d'exemple
-print("Allocation pour le premier jour sur F :")
-print(allocation_on_F[0])
+# Calcul du P&L pour la période de test
+daily_pnl = np.sum(predictions * allocations, axis=1)
+cumulative_pnl = np.cumsum(daily_pnl)
+
+# Afficher les résultats pour la période de test
+print("Cumulative P&L for the test period:", cumulative_pnl[-1])
+
+# Préparation et application de la stratégie pour les données futures
+X_future, _ = create_features_targets(F, window_size)
+future_predictions = model.predict(X_future)
+future_allocations = allocate_based_on_ranking(future_predictions, top_n)
+
+# Calcul du P&L pour la période future
+future_daily_pnl = np.sum(future_predictions * future_allocations, axis=1)
+future_cumulative_pnl = np.cumsum(future_daily_pnl)
+
+# Afficher les résultats pour la période future
+print("Cumulative P&L for the future period:", future_cumulative_pnl[-1])
