@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 
-def rendements():
+def rendements(annees = 5):
 
     nb_actifs = 20
-    nb_dates = 256 * 5
+    nb_dates = 256 * annees
 
     idx = pd.Index(np.arange(nb_actifs))
 
