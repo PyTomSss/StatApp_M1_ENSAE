@@ -4,9 +4,9 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 import numpy as np
+import matplotlib.pyplot as plt
 
 C = rendements(1)
-F = rendements(1)
 
 # Paramètre look_back définit le nombre de jours précédents à considérer
 look_back = 30  
@@ -41,39 +41,76 @@ for asset in range(num_assets):
 
 ### Portefeuille
 
-# Prediction J31
+sharpe_ratios = [] 
 
-# Initialisation de la variable pour stocker le meilleur rendement et l'indice de l'actif correspondant
+u = 0
+v = 0
 
-# Nombre total de jours pour lesquels faire des prédictions
-nombre_jours_predictions = F.shape[0] - look_back
+for l in range(200):
 
-# Matrice pour stocker les résultats : 19 zéros et 1 un par ligne
-resultats = np.zeros((nombre_jours_predictions, num_assets))
+    F = rendements(1)
+    # Initialisation de la variable pour stocker le meilleur rendement et l'indice de l'actif correspondant
 
-column_names = [f'N-{i}' for i in range(look_back, 0, -1)]
+    # Nombre total de jours pour lesquels faire des prédictions
+    nombre_jours_predictions = F.shape[0] - look_back
 
-for jour in range(nombre_jours_predictions):
-    rendement_max = -np.inf
-    index_meilleur_actif = -1
+    # Matrice pour stocker les résultats : 19 zéros et 1 un par ligne
+    resultats = np.zeros((nombre_jours_predictions, num_assets))
 
-    for i in range(num_assets):
-        # Extraire les données pour le jour actuel et l'actif actuel
-        rendements_actif_i = F.iloc[jour:jour+look_back, i].values.reshape(1, -1)
+    # Préparation des noms de colonnes pour correspondre à l'entraînement
+    column_names = [f'N-{i}' for i in range(look_back, 0, -1)]
+
+    for jour in range(nombre_jours_predictions):
+        rendement_max = -np.inf
+        index_meilleur_actif = -1
+
+        for i in range(num_assets):
+            rendements_actif_i = F.iloc[jour:jour+look_back, i]
+            data_F = pd.DataFrame([rendements_actif_i.values], columns=column_names)
+            prediction_actif_i = models[f'asset_{i}'].predict(data_F)
+
+            # Comparaison pour trouver le rendement maximum
+            if prediction_actif_i > rendement_max:
+                rendement_max = prediction_actif_i
+                index_meilleur_actif = i
         
-        # Prédiction pour l'actif actuel
-        prediction_actif_i = models[f'asset_{i}'].predict(rendements_actif_i)
+        # Stocker le résultat (1 pour le meilleur actif, 0 pour les autres)
+        resultats[jour, index_meilleur_actif] = 1
 
-        # Comparaison pour trouver le rendement maximum
-        if prediction_actif_i > rendement_max:
-            rendement_max = prediction_actif_i
-            index_meilleur_actif = i
-    
-    # Stocker le résultat (1 pour le meilleur actif, 0 pour les autres)
-    resultats[jour, index_meilleur_actif] = 1
 
-# Affichage des résultats
-print(resultats)
-rendements_reels = F.iloc[30:]
-rendement_portefeuille = np.sum(np.sum(resultats * rendements_reels, axis=1))
-print(rendement_portefeuille)
+    # Affichage des résultats
+    print(resultats)
+    rendements_reels = F.iloc[30:]
+    rendements_journaliers = np.sum(resultats * rendements_reels, axis=1)
+    sharpe_ratio = np.mean(rendements_journaliers)/np.std(rendements_journaliers)
+    v = v + sharpe_ratio
+    rendement_portefeuille = np.sum(rendements_journaliers)
+    print(v/(l+1))
+    print(rendement_portefeuille)
+    u = u + rendement_portefeuille
+    print(u/(l+1))
+    sharpe_ratios.append(sharpe_ratio)  
+
+sharpe_moyen = np.mean(sharpe_ratios)
+
+# Trier les ratios de Sharpe
+sharpe_ratios_sorted = np.sort(sharpe_ratios)
+
+# Calculer la fonction de répartition pour chaque valeur triée
+cdf = np.arange(1, len(sharpe_ratios_sorted) + 1) / len(sharpe_ratios_sorted)
+
+# Créer le graphique
+plt.plot(sharpe_ratios_sorted, cdf, marker='o', linestyle='none', color='blue')
+
+# Ajouter la ligne verticale pour le Sharpe moyen
+plt.axvline(x=sharpe_moyen, color='red', linestyle='--', label=f'Sharpe Moyen: {sharpe_moyen:.2f}')
+
+plt.xlabel('Ratio de Sharpe')
+plt.ylabel('Répartition')
+plt.title('')
+plt.legend()
+
+# Afficher une grille pour mieux visualiser les niveaux de répartition
+plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+
+plt.show()
