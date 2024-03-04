@@ -37,9 +37,5 @@ def retourner_matrices(nb_signals = 100, nb_dates_in_sample = 1300, nb_dates_out
 
     return [signals, assets], [signals_os, assets_os]
 
-matrices_in_sample, matrices_out_sample = retourner_matrices()
-print("Matrices In Sample:")
-print(matrices_in_sample)
-print("Matrices Out Sample:")
-print(matrices_out_sample)
+
 

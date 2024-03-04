@@ -1,4 +1,4 @@
-from creation_matrices import rendements
+from brouillon_julien.modele_initial.creation_matrices import rendements
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor

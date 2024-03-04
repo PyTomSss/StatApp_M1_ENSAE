@@ -1,4 +1,4 @@
-from creation_matrices import rendements
+from brouillon_julien.modele_initial.creation_matrices import rendements
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
