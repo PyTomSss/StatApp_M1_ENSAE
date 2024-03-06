@@ -1,10 +1,26 @@
 import pandas as pd
 import numpy as np
 
+#cette fonction créé une liste de 20 dictionnaires, chaque dictionnaire contient 1000 x 4 matrices
+#(signal train, signal test, asets train, assets test) et chaque dictionnaire est associé à une valeur
+#de corrélation différente 
+
+
+#Liste_dictionnaires = 
+
+#[dictionnaire_correl_0.1, dictionnaire_correl_0.15, ... dictionnaire_correl_1]
+
+#où dictionnaire_correl_0.1 = {"train_signal" : [liste contenant les 1000 matrices de signal pour le train],
+#                              "train_assets": [liste contenant les 1000 matrices d'assets pour le train],
+#                              "test_signal":  [liste contenant les 1000 matrices de signal pour le test],
+#                              "test_assets": [liste contenant les 1000 matrices d'assets pour le test]}
+
+#chaque dictionnaire contient 4000 matrices, et liste_dictionnaire contient 20x4000 = 80 000 matrices
+
 
 seeds=np.random.randint(0, 1000000, size=1000)
 
-def creer_excel_matrices_correl_varie(chemin_sauvegarde_du_csv,min_abscisse,max_abscisse,pas,nb_simus,nb_signals,
+def creer_excel_matrices_correl_varie(min_abscisse,max_abscisse,pas,nb_simus,nb_signals,
                                       nb_dates_in_sample,nb_dates_out_sample,nb_assets,vol_assets,
                                       correl_assets,vol_signals,correl_signals,signal_to_noise,rank_betas):
 
@@ -58,11 +74,8 @@ def creer_excel_matrices_correl_varie(chemin_sauvegarde_du_csv,min_abscisse,max_
     
         liste_dictionnaires.append(data)
 
-    dataframe_matrices_correl_varie=pd.DataFrame(liste_dictionnaires)
+    return liste_dictionnaires
 
-    dataframe_matrices_correl_varie.to_csv(chemin_sauvegarde_du_csv,index = False) 
-
-    return dataframe_matrices_correl_varie
 
 
     
