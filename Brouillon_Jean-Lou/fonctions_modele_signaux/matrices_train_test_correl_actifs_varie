@@ -1,0 +1,47 @@
+import pandas as pd
+import numpy as np
+
+
+from fonctions_modele_signaux.creation_excel_1000_matrices import creer_excel_matrices_correl_varie
+
+
+liste_1000_matrices_correl_varie = []
+
+
+
+liste_1000_matrices_correl_varie = creer_excel_matrices_correl_varie(
+                                          min_abscisse=0.1,
+                                          max_abscisse=1,
+                                          pas=0.1,
+                                          nb_simus=3,
+                                          nb_signals=100,
+                                        nb_dates_in_sample=1300,
+                                        nb_dates_out_sample=256,
+                                        nb_assets=20,
+                                        vol_assets=0.2/16,
+                                      correl_assets=0.8,
+                                      vol_signals=0.2/16,
+                                      correl_signals=0.8,
+                                      signal_to_noise=0.001,
+                                      rank_betas=5)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+        
+
+
+    
+    
