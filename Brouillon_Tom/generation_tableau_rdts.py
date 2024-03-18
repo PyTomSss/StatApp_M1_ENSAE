@@ -1,3 +1,6 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
 def generation_tableau_rdts(nb_actifs, nb_dates, list_esp_rdts, list_vols, nb_simu, nb_dates_test, correl, model) :     
     #On crée une fonction à qui on donne les paramètres que l'on souhaite pour la simulation de la matrice de rendements, 
     #le nombre de simulations pour le test out-sample et le modèle que l'on souhaite tester. 
