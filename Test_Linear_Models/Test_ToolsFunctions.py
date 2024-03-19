@@ -129,7 +129,7 @@ def perf_model_plot(K, param_var, param_var_max, vect_in, vect_out, linear_model
 
     elif param_var == 4 : 
 
-        x = np.arange(0,param_var_max, 0.01) 
+        x = np.arange(0.1, param_var_max, 0.01) 
         #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
         plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
@@ -386,12 +386,12 @@ def test_linear_model(param_var, param_var_max, linear_model, K = 30) :
         sharpe_out_vector = []
         sharpe_in_vector = []
         #Itérations
-        for j in np.arange(0,param_var_max, 0.01) :
+        for j in np.arange(0.1,param_var_max, 0.01) :
             #Génération des matrices de rendements -> 1 fois pour toutes
             rdts = []
             models = []
             for i in range(K) : 
-                rdts.append(rdt_matrix_generator(nb_actifs, nb_dates,[0.05], [j], 0.7, list_rand_vect[i])) #On fixe manuellement les paramètres de la loi normale et on garde en mémoire les matrices de train
+                rdts.append(rdt_matrix_generator(nb_actifs, nb_dates,[0.05], [j], 0.3, list_rand_vect[i])) #On fixe la correl plus basse pour que cela reste définie positive
                 models.append(linear_model.fit(rdts[i], Y_train).coef_)
 
             sharpe_out_models = 0
