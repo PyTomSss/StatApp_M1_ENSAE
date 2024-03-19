@@ -59,7 +59,7 @@ def pred_sharpe(rdt_matrix, linear_model) :
 #param_var = 7 : on fait varier le ratio lignes/colonnes (nb_dates/nb_actifs)
 
 #Plot les graphes utiles pour nous
-def perf_model_plot(K, param_var, param_var_max, vect_in, vect_out, linear_model) :
+def perf_model_plot(K, param_var, param_var_max, vect_in, vect_out, linear_model, zoom_out = False) :
     if param_var == 1 : 
 
         x = np.arange(2,param_var_max, 2) 
@@ -67,7 +67,8 @@ def perf_model_plot(K, param_var, param_var_max, vect_in, vect_out, linear_model
         #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
         plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
-        plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
+        if zoom_out == False : 
+            plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
         plt.legend()
 
         plt.title(f"Évolution des sharpes ratios moyens en fonction du nombre d'actifs {str(linear_model)}")
@@ -89,7 +90,8 @@ def perf_model_plot(K, param_var, param_var_max, vect_in, vect_out, linear_model
         #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
         plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
-        plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
+        if zoom_out == False : 
+            plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
         plt.legend()
 
         plt.title(f"Évolution des sharpes ratios moyens en fonction du nombre de dates d'entraînement {str(linear_model)}")
@@ -111,7 +113,8 @@ def perf_model_plot(K, param_var, param_var_max, vect_in, vect_out, linear_model
         #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
         plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
-        plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
+        if zoom_out == False : 
+            plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
         plt.legend()
 
         plt.title(f"Évolution des sharpes ratios moyens en fonction de la corrélation entre les actifs {str(linear_model)}")
@@ -133,7 +136,8 @@ def perf_model_plot(K, param_var, param_var_max, vect_in, vect_out, linear_model
         #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
         plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
-        plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
+        if zoom_out == False : 
+            plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
         plt.legend()
 
         plt.title(f"Évolution des sharpes ratios moyens en fonction de la volatilité des actifs {str(linear_model)}")
@@ -155,7 +159,8 @@ def perf_model_plot(K, param_var, param_var_max, vect_in, vect_out, linear_model
         #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
         plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
-        plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
+        if zoom_out == False : 
+            plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
         plt.legend()
 
         plt.title(f"Évolution des sharpes ratios moyens en fonction de l'espérance de rendement des actifs {str(linear_model)}")
@@ -220,7 +225,7 @@ def perf_model_plot(K, param_var, param_var_max, vect_in, vect_out, linear_model
 #Cela doit return un vecteur de sharpe ratio in & out sample moyen pour chaque pas de variation du param
 #On a ajouté l'argument param_var_max qui donne le max du paramètre que l'on veut tester
         
-def test_linear_model(param_var, param_var_max, linear_model, K = 30) : 
+def test_linear_model(param_var, param_var_max, linear_model, zoom_out = False, K = 30) : 
 
     if param_var == 1 : 
         #Pour l'instant on fixe manuellement la taille de l'historique (10ans) et le nombre max d'actifs est donné par l'utilisateur
@@ -271,7 +276,7 @@ def test_linear_model(param_var, param_var_max, linear_model, K = 30) :
             sharpe_in_vector.append(sharpe_in_models / K)
 
         #On plot les graphes
-        perf_model_plot(K, param_var,param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model)
+        perf_model_plot(K, param_var,param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
 
     elif param_var == 2 :
         #Même travail mais sur le nombre de lignes de notre matrice de rendements
@@ -324,7 +329,7 @@ def test_linear_model(param_var, param_var_max, linear_model, K = 30) :
             sharpe_in_vector.append(sharpe_in_models / K)
 
         #On plot les graphes
-        perf_model_plot(K, param_var, param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model)
+        perf_model_plot(K, param_var, param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
 
     elif param_var == 3 : 
 
@@ -367,7 +372,7 @@ def test_linear_model(param_var, param_var_max, linear_model, K = 30) :
             sharpe_in_vector.append(sharpe_in_models / K)
                                
         #On plot les graphes
-        perf_model_plot(K, param_var,param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model)
+        perf_model_plot(K, param_var,param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
 
     elif param_var == 4 : 
 
@@ -411,7 +416,7 @@ def test_linear_model(param_var, param_var_max, linear_model, K = 30) :
                                
         #On plot les graphes
         print(sharpe_in_vector, sharpe_out_vector)
-        perf_model_plot(K, param_var,param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model)
+        perf_model_plot(K, param_var,param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
 
     elif param_var == 5 : 
 
@@ -454,5 +459,5 @@ def test_linear_model(param_var, param_var_max, linear_model, K = 30) :
             sharpe_in_vector.append(sharpe_in_models / K)
                                
         #On plot les graphes
-        perf_model_plot(K, param_var, param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model)
+        perf_model_plot(K, param_var, param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
 
