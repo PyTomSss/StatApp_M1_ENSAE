@@ -6,6 +6,9 @@ import matplotlib.pyplot as plt
 
 #Cette fonction permet de générer une matrice de rendements suivant une loi normale multivariée
 #Elle prend en paramètres le nombre d'actifs souhaités, le nombre de dates, les paramètres de la loi normale souhaitée
+
+#A FAIRE -> Dissocier la fonction permettant de générer les mu et vols par blocs de la génération de la matrice de rendements
+
 def rdt_matrix_generator(nb_actifs, nb_dates, list_esp_rdts, list_vols, correl, rand_vector = None) :     
     #Définition des lois des actifs
     idx = pd.Index(np.arange(nb_actifs))
