@@ -65,3 +65,173 @@ def pred_sharpe_signals(assets_matrix, signals_matrix, linear_model) :
     sharpe = pnl_model.mean() / pnl_model.std()*16
     
     return sharpe
+
+#param_var = 1 : on fait varier le nombre de signaux
+#param_var = 2 : on fait varier le nombre de dates
+#param_var = 3 : on fait varier le nombre d'actifs
+#param_var = 4 : on fait varier le signal to noise (qui représente ?)
+#param_var = 5 : on fait varier la variance des signaux
+#param_var = 6 : on fait varier la corrélation des signaux
+#On ne fait varier que les paramètres relatifs à la taille des matrices et de loi des signaux, pas pour les actifs (serait-ce pertinent ?)
+
+#Plot les graphes utiles pour nous
+def perf_modelsignals_plot(K, param_var, param_var_max, vect_in, vect_out, linear_model, zoom_out = False) :
+    if param_var == 1 : 
+
+        x = np.arange(2,param_var_max, 2) 
+
+        #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        if zoom_out == False : 
+            plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
+        plt.legend()
+
+        plt.title(f"Évolution des sharpes ratios moyens en fonction du nombre d'actifs {str(linear_model)}")
+        plt.xlabel("Nombre d'actifs")
+        plt.ylabel('Sharpe Ratio moyen')
+
+        #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, np.array(vect_out) / np.array(vect_in), label = 'Ratio Sharpe In & Out Sample', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution de l'overfitting en fonction du nombre d'actifs {str(linear_model)}")
+        plt.xlabel("Nombre d'actifs")
+        plt.ylabel('Sharpe Ratio moyen')
+
+    elif param_var == 2 : 
+
+        x = np.arange(256,param_var_max, 256/2) 
+        #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        if zoom_out == False : 
+            plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
+        plt.legend()
+
+        plt.title(f"Évolution des sharpes ratios moyens en fonction du nombre de dates d'entraînement {str(linear_model)}")
+        plt.xlabel("Nombre de dates")
+        plt.ylabel('Sharpe Ratio moyen')
+
+        #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, np.array(vect_out) / np.array(vect_in), label = 'Ratio Sharpe In & Out Sample', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution de l'overfitting en fonction du nombre de dates d'entraînement {str(linear_model)}")
+        plt.xlabel("Nombre de dates")
+        plt.ylabel('Sharpe Ratio moyen')
+
+    elif param_var == 3 : 
+
+        x = np.arange(0,param_var_max, 0.01) 
+        #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        if zoom_out == False : 
+            plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
+        plt.legend()
+
+        plt.title(f"Évolution des sharpes ratios moyens en fonction de la corrélation entre les actifs {str(linear_model)}")
+        plt.xlabel("Corrélations entre les actifs (même pour tous les actifs)")
+        plt.ylabel('Sharpe Ratio moyen')
+
+        #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, np.array(vect_out) / np.array(vect_in), label = 'Ratio Sharpe In & Out Sample', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution de l'overfitting en fonction de la corrélation entre les actifs {str(linear_model)}")
+        plt.xlabel("Corrélations entre les actifs (même pour tous les actifs)")
+        plt.ylabel('Sharpe Ratio moyen')
+
+    elif param_var == 4 : 
+
+        x = np.arange(0.1, param_var_max, 0.01) 
+        #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        if zoom_out == False : 
+            plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
+        plt.legend()
+
+        plt.title(f"Évolution des sharpes ratios moyens en fonction de la volatilité des actifs {str(linear_model)}")
+        plt.xlabel("Volatilité des actifs (même pour tous les actifs)")
+        plt.ylabel('Sharpe Ratio moyen')
+
+        #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, np.array(vect_out) / np.array(vect_in), label = 'Ratio Sharpe In & Out Sample', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution de l'overfitting en fonction de la volatilité des actifs {str(linear_model)}")
+        plt.xlabel("Volatilité des actifs (même pour tous les actifs)")
+        plt.ylabel('Sharpe Ratio moyen')
+
+    elif param_var == 5 : 
+
+        x = np.arange(-0.3, param_var_max, 0.005) 
+        #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        if zoom_out == False : 
+            plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
+        plt.legend()
+
+        plt.title(f"Évolution des sharpes ratios moyens en fonction de l'espérance de rendement des actifs {str(linear_model)}")
+        plt.xlabel("Espérance de rendement des actifs (même pour tous les actifs)")
+        plt.ylabel('Sharpe Ratio moyen')
+
+        #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, np.array(vect_out) / np.array(vect_in), label = 'Ratio Sharpe In & Out Sample', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution de l'overfitting en fonction de l'espérance de rendement des actifs {str(linear_model)}")
+        plt.xlabel("Espérance de rendement des actifs (même pour tous les actifs)")
+        plt.ylabel('Sharpe Ratio moyen')
+    #Non fait encore
+    elif param_var == 6 : 
+
+        x = np.arange(0,param_var_max, 0.01) 
+        #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
+        plt.legend()
+
+        plt.title(f"Évolution des sharpes ratios moyens en fonction de la corrélation entre les actifs {str(linear_model)}")
+        plt.xlabel("Corrélations entre les actifs (même pour tous les actifs)")
+        plt.ylabel('Sharpe Ratio moyen')
+
+        #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, np.array(vect_out) / np.array(vect_in), label = 'Ratio Sharpe In & Out Sample', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution de l'overfitting en fonction de la corrélation entre les actifs {str(linear_model)}")
+        plt.xlabel("Corrélations entre les actifs (même pour tous les actifs)")
+        plt.ylabel('Sharpe Ratio moyen')
+    #Non fait encore
+    elif param_var == 7 : 
+
+        x = np.arange(0,param_var_max, 0.01) 
+        #On plot l'évolution des sharpes in & out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        plt.plot(x, vect_in, label = 'Sharpe In Sample Modèle', color = 'green')
+        plt.legend()
+
+        plt.title(f"Évolution des sharpes ratios moyens en fonction de la corrélation entre les actifs {str(linear_model)}")
+        plt.xlabel("Corrélations entre les actifs (même pour tous les actifs)")
+        plt.ylabel('Sharpe Ratio moyen')
+
+        #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, np.array(vect_out) / np.array(vect_in), label = 'Ratio Sharpe In & Out Sample', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution de l'overfitting en fonction de la corrélation entre les actifs {str(linear_model)}")
+        plt.xlabel("Corrélations entre les actifs (même pour tous les actifs)")
+        plt.ylabel('Sharpe Ratio moyen')
