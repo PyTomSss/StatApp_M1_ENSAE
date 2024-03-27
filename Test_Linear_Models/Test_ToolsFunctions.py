@@ -50,6 +50,7 @@ def rdt_matrix_generator(nb_actifs, nb_dates, list_esp_rdts, list_vols, correl, 
 #Cette fonction permet de fournir un sharpe ratio moyen in & out sample pour une matrice de test donnée et un modèle donné
 def pred_sharpe(rdt_matrix, linear_model) : 
     pnl = rdt_matrix @ linear_model
+    print(pnl)
     sharpe = pnl.mean() / pnl.std() * 16
     return sharpe
 
@@ -62,7 +63,7 @@ def pred_sharpe(rdt_matrix, linear_model) :
 #param_var = 7 : on fait varier le ratio lignes/colonnes (nb_dates/nb_actifs)
 
 #Plot les graphes utiles pour nous
-def perf_model_plot(K, param_var, param_var_max, vect_in, vect_out, linear_model, zoom_out = False) :
+def perf_model_plot(param_var, param_var_max, vect_in, vect_out, linear_model, zoom_out = False) :
     if param_var == 1 : 
 
         x = np.arange(2,param_var_max, 2) 
@@ -279,7 +280,7 @@ def test_linear_model(param_var, param_var_max, linear_model, zoom_out = False, 
             sharpe_in_vector.append(sharpe_in_models / K)
 
         #On plot les graphes
-        perf_model_plot(K, param_var,param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
+        perf_model_plot(param_var,param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
 
     elif param_var == 2 :
         #Même travail mais sur le nombre de lignes de notre matrice de rendements
@@ -332,7 +333,7 @@ def test_linear_model(param_var, param_var_max, linear_model, zoom_out = False, 
             sharpe_in_vector.append(sharpe_in_models / K)
 
         #On plot les graphes
-        perf_model_plot(K, param_var, param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
+        perf_model_plot(param_var, param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
 
     elif param_var == 3 : 
 
@@ -375,7 +376,7 @@ def test_linear_model(param_var, param_var_max, linear_model, zoom_out = False, 
             sharpe_in_vector.append(sharpe_in_models / K)
                                
         #On plot les graphes
-        perf_model_plot(K, param_var,param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
+        perf_model_plot(param_var,param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
 
     elif param_var == 4 : 
 
@@ -419,7 +420,7 @@ def test_linear_model(param_var, param_var_max, linear_model, zoom_out = False, 
                                
         #On plot les graphes
         print(sharpe_in_vector, sharpe_out_vector)
-        perf_model_plot(K, param_var,param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
+        perf_model_plot(param_var,param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
 
     elif param_var == 5 : 
 
@@ -462,5 +463,5 @@ def test_linear_model(param_var, param_var_max, linear_model, zoom_out = False, 
             sharpe_in_vector.append(sharpe_in_models / K)
                                
         #On plot les graphes
-        perf_model_plot(K, param_var, param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
+        perf_model_plot(param_var, param_var_max, sharpe_in_vector, sharpe_out_vector, linear_model, zoom_out = zoom_out)
 
