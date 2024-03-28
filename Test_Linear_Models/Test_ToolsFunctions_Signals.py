@@ -95,6 +95,17 @@ def perf_modelsignals_plot(param_var, param_var_max, vect_in, vect_out, linear_m
         plt.xlabel("Nombre de signaux")
         plt.ylabel('Sharpe Ratio moyen')
 
+        #plot de sharpe out sample
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution du sharpe out sample en fonction du nombre de signaux {str(linear_model)}")
+        plt.xlabel("Nombre de signaux")
+        plt.ylabel('Sharpe Ratio out sample moyen')
+
+
+
         #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
         plt.plot(x, np.array(vect_out) / np.array(vect_in), label = 'Ratio Sharpe In & Out Sample', color = 'blue')
@@ -117,6 +128,17 @@ def perf_modelsignals_plot(param_var, param_var_max, vect_in, vect_out, linear_m
         plt.title(f"Évolution des sharpes ratios moyens en fonction du nombre de dates d'entraînement {str(linear_model)}")
         plt.xlabel("Nombre de dates")
         plt.ylabel('Sharpe Ratio moyen')
+
+
+        #plot de sharpe out sample
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution du sharpe out sample en fonction du nombre de dates d'entrainement {str(linear_model)}")
+        plt.xlabel("Nombre de dates")
+        plt.ylabel('Sharpe Ratio out sample moyen')
+
 
         #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
@@ -142,6 +164,16 @@ def perf_modelsignals_plot(param_var, param_var_max, vect_in, vect_out, linear_m
         plt.xlabel("Nombre d'actifs")
         plt.ylabel('Sharpe Ratio moyen')
 
+        #plot de sharpe out sample
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution du sharpe out sample en fonction du nombre d'actifs {str(linear_model)}")
+        plt.xlabel("Nombre d'actifs")
+        plt.ylabel('Sharpe Ratio out sample moyen')
+
+
         #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
         plt.plot(x, np.array(vect_out) / np.array(vect_in), label = 'Ratio Sharpe In & Out Sample', color = 'blue')
@@ -165,6 +197,15 @@ def perf_modelsignals_plot(param_var, param_var_max, vect_in, vect_out, linear_m
         plt.title(f"Évolution des sharpes ratios moyens en fonction du ratio Signal/Bruit {str(linear_model)}")
         plt.xlabel("Ratio Signal/Bruit")
         plt.ylabel('Sharpe Ratio moyen')
+
+        #plot de sharpe out sample
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution du sharpe out sample en fonction du ratio signal/bruit {str(linear_model)}")
+        plt.xlabel("ratio signal/bruit")
+        plt.ylabel('Sharpe Ratio out sample moyen')
 
         #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
@@ -190,6 +231,15 @@ def perf_modelsignals_plot(param_var, param_var_max, vect_in, vect_out, linear_m
         plt.xlabel("Volatilité des signaux (égale pour tous)")
         plt.ylabel('Sharpe Ratio moyen')
 
+        #plot de sharpe out sample
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution du sharpe out sample en fonction de la volatilité des signaux {str(linear_model)}")
+        plt.xlabel("Volatilité des signaux")
+        plt.ylabel('Sharpe Ratio out sample moyen')
+
         #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
         plt.plot(x, np.array(vect_out) / np.array(vect_in), label = 'Ratio Sharpe In & Out Sample', color = 'blue')
@@ -212,6 +262,15 @@ def perf_modelsignals_plot(param_var, param_var_max, vect_in, vect_out, linear_m
         plt.title(f"Évolution des sharpes ratios moyens en fonction de la corrélation entre les signaux {str(linear_model)}")
         plt.xlabel("Corrélations entre les signaux (même pour tous les signaux)")
         plt.ylabel('Sharpe Ratio moyen')
+
+        #plot de sharpe out sample
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution du sharpe out sample en fonction de corrélation des signaux {str(linear_model)}")
+        plt.xlabel("Corrélation des signaux")
+        plt.ylabel('Sharpe Ratio out sample moyen')
 
         #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
@@ -236,6 +295,15 @@ def perf_modelsignals_plot(param_var, param_var_max, vect_in, vect_out, linear_m
         plt.xlabel("Volatilité des actifs (égale pour tous)")
         plt.ylabel('Sharpe Ratio moyen')
 
+        #plot de sharpe out sample
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution du sharpe out sample en fonction de volatilité des actifs {str(linear_model)}")
+        plt.xlabel("volatilité des actifs")
+        plt.ylabel('Sharpe Ratio out sample moyen')
+
         #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
         plt.plot(x, np.array(vect_out) / np.array(vect_in), label = 'Ratio Sharpe In & Out Sample', color = 'blue')
@@ -258,6 +326,15 @@ def perf_modelsignals_plot(param_var, param_var_max, vect_in, vect_out, linear_m
         plt.title(f"Évolution des sharpes ratios moyens en fonction de la corrélation entre les actifs {str(linear_model)}")
         plt.xlabel("Corrélations entre les actifs (même pour tous les actifs)")
         plt.ylabel('Sharpe Ratio moyen')
+
+        #plot de sharpe out sample
+        plt.figure(figsize=(10, 8))
+        plt.plot(x, vect_out, label = 'Sharpe Out Sample Modèle', color = 'blue')
+        plt.legend()
+
+        plt.title(f"Évolution du sharpe out sample en fonction de corrélation des actifs {str(linear_model)}")
+        plt.xlabel("corrélation des actifs")
+        plt.ylabel('Sharpe Ratio out sample moyen')
 
         #ici on plot l'évolution du ration in/out en fonction de l'évolution du paramètre d'intérêt
         plt.figure(figsize=(10, 8))
